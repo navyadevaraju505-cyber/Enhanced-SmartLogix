@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SmartLogix - Logistics Optimizer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">S</div>
+            <div>
+                <h2>Travel Smart</h2>
+                <span>Logistics Optimizer</span>
+            </div>
+        </div>
+
+        <nav>
+            <button class="nav-item active" onclick="showSection('dashboard')">
+                📊 Dashboard
+            </button>
+
+            <button class="nav-item" onclick="showSection('deliveries')">
+                📦 Deliveries
+            </button>
+
+            <button class="nav-item" onclick="showSection('routes')">
+                🗺️ Route Optimizer
+            </button>
+
+            <button class="nav-item" onclick="showSection('vehicles')">
+                🚚 Vehicles
+            </button>
+
+            <button class="nav-item" onclick="showSection('planning')">
+                🧠 Smart Planning
+            </button>
+
+            <button class="nav-item" onclick="showSection('ai')">
+                🤖 AI Assistant
+            </button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="status-dot"></span>
+            Backend Connected
+        </div>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="main">
+
+        <!-- Header -->
+        <header class="topbar">
+
+            <div>
+                <h1 id="pageTitle">Dashboard</h1>
+                <p>Smart delivery and logistics optimization</p>
+            </div>
+
+            <div class="connection">
+                <span class="status-dot"></span>
+                API Online
+            </div>
+
+        </header>
+
+
+        <!-- Dashboard -->
+        <section id="dashboard" class="section active-section">
+
+            <div class="hero">
+
+                <div>
+                    <span class="badge">AI-POWERED LOGISTICS</span>
+
+                    <h2>
+                        Optimize every delivery.
+                        <br>
+                        <span>Make smarter decisions.</span>
+                    </h2>
+
+                    <p>
+                        SmartLogix combines route optimization,
+                        priority scheduling and intelligent planning
+                        to improve delivery operations.
+                    </p>
+                </div>
+
+                <div class="hero-icon">
+                    🚚
+                </div>
+
+            </div>
+
+
+            <!-- Statistics -->
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon">📦</div>
+                    <div>
+                        <span>Total Deliveries</span>
+                        <strong id="totalDeliveries">0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🔴</div>
+                    <div>
+                        <span>High Priority</span>
+                        <strong id="highPriority">0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">📏</div>
+                    <div>
+                        <span>Total Distance</span>
+                        <strong id="totalDistance">0 km</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div>
+                        <span>System Status</span>
+                        <strong class="online">ONLINE</strong>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Quick Actions -->
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Optimization Center</h3>
+                        <p>Run logistics algorithms directly from the dashboard.</p>
+                    </div>
+                </div>
+
+                <div class="action-grid">
+
+                    <button onclick="loadPriority()" class="action-card">
+                        <span>⚡</span>
+                        <strong>Priority Queue</strong>
+                        <small>Process urgent deliveries first</small>
+                    </button>
+
+                    <button onclick="loadVehicles()" class="action-card">
+                        <span>🚚</span>
+                        <strong>Vehicle Assignment</strong>
+                        <small>Run Greedy vehicle optimization</small>
+                    </button>
+
+                    <button onclick="loadPlanning()" class="action-card">
+                        <span>🧠</span>
+                        <strong>Smart Planning</strong>
+                        <small>Optimize using Dynamic Programming</small>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Recent Deliveries -->
+            <div class="panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Recent Deliveries</h3>
+                        <p>Live data from your MySQL database</p>
+                    </div>
+
+                    <button class="secondary-btn"
+                            onclick="loadDeliveries()">
+                        Refresh
+                    </button>
+                </div>
+
+                <div id="recentDeliveries" class="delivery-list">
+                    Loading...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Deliveries -->
+        <section id="deliveries" class="section">
+
+            <div class="section-heading">
+                <h2>Delivery Management</h2>
+                <p>All delivery orders from the database.</p>
+            </div>
+
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h3>Delivery Orders</h3>
+
+                    <button class="secondary-btn"
+                            onclick="loadDeliveries()">
+                        Refresh
+                    </button>
+                </div>
+
+                <div id="allDeliveries" class="delivery-list">
+                    Loading...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Routes -->
+        <section id="routes" class="section">
+
+            <div class="section-heading">
+                <h2>Route Optimizer</h2>
+                <p>Find the shortest route using Dijkstra's algorithm.</p>
+            </div>
+
+            <div class="optimizer-form">
+
+                <div class="input-group">
+                    <label>From</label>
+
+                    <select id="routeFrom">
+                        <option>Bangalore</option>
+                        <option>Chennai</option>
+                        <option>Hyderabad</option>
+                        <option>Mysore</option>
+                        <option>Pune</option>
+                        <option>Mumbai</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>To</label>
+
+                    <select id="routeTo">
+                        <option>Chennai</option>
+                        <option>Bangalore</option>
+                        <option>Hyderabad</option>
+                        <option>Mysore</option>
+                        <option>Pune</option>
+                        <option>Mumbai</option>
+                    </select>
+                </div>
+
+                <button onclick="optimizeRoute()" class="primary-btn">
+                    Find Shortest Route
+                </button>
+
+            </div>
+
+            <div id="routeResult"></div>
+
+        </section>
+
+
+        <!-- Vehicles -->
+        <section id="vehicles" class="section">
+
+            <div class="section-heading">
+                <h2>Vehicle Optimization</h2>
+                <p>Assign vehicles using the Greedy optimization algorithm.</p>
+            </div>
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <h3>Smart Vehicle Assignment</h3>
+                        <p>
+                            High-priority deliveries are processed first.
+                        </p>
+                    </div>
+
+                    <button onclick="loadVehicles()" class="primary-btn">
+                        Run Optimization
+                    </button>
+
+                </div>
+
+                <div id="vehicleResults">
+                    Click "Run Optimization" to start.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Planning -->
+        <section id="planning" class="section">
+
+            <div class="section-heading">
+
+                <h2>Smart Delivery Planning</h2>
+
+                <p>
+                    Select the best delivery combination using
+                    Dynamic Programming.
+                </p>
+
+            </div>
+
+            <div class="optimizer-form">
+
+                <div class="input-group">
+
+                    <label>Maximum Distance (km)</label>
+
+                    <input
+                        type="number"
+                        id="maxDistance"
+                        value="1500"
+                        min="100"
+                    >
+
+                </div>
+
+                <button onclick="loadPlanning()" class="primary-btn">
+                    Optimize Plan
+                </button>
+
+            </div>
+
+            <div id="planningResults"></div>
+
+        </section>
+
+
+        <!-- AI -->
+        <section id="ai" class="section">
+
+            <div class="section-heading">
+
+                <span class="badge">INTELLIGENT OPERATIONS</span>
+
+                <h2>AI Logistics Assistant</h2>
+
+                <p>
+                    AI-powered recommendations for smarter delivery operations.
+                </p>
+
+            </div>
+
+            <div class="ai-card">
+
+                <div class="ai-icon">
+                    🤖
+                </div>
+
+                <div>
+
+                    <h3>SmartLogix AI</h3>
+
+                    <p>
+                        The AI layer will analyze delivery priorities,
+                        route results, vehicle assignments and planning
+                        data to provide actionable logistics recommendations.
+                    </p>
+
+                    <button onclick="generateAIInsight()" class="primary-btn">
+                        Generate AI Insight
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div id="aiResult" class="ai-result">
+                Click "Generate AI Insight" to analyze the current logistics data.
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
