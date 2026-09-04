@@ -97,3 +97,6 @@ The system combines a Spring Boot backend, MySQL database, and professional web 
                               └─────────┬─────────┘
                                         │
                                       MySQL
+
+
+Project done by Navya D , UI/UX Enhancement by @NireekshaAP07 , Report and presentation by team - Navya D, Nireeksha A P Neha C B , Navyashree B K
